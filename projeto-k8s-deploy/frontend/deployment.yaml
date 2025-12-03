@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: projeto01-frontend
+  namespace: projeto01
+spec:
+  selector:
+    app: projeto01-frontend
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: projeto01-frontend
+  namespace: projeto01
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: projeto01-frontend
+  template:
+    metadata:
+      labels:
+        app: projeto01-frontend
+    spec:
+      containers:
+      - name: backend
+        image: nelsontlima/projeto01-frontend:latest
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 80
+        envFrom:
+          - configMapRef:
+              name: projeto01-configmap
+          - secretRef:
+              name: projeto01-secret
