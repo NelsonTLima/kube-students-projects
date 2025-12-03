@@ -1,8 +1,7 @@
-version: "3.9"
-
 services:
   backend:
     build: ./backend
+    image: nelsontlima/projeto01-backend:latest
     ports:
       - "5000:5000"
     environment:
@@ -21,10 +20,11 @@ services:
   frontend:
     build:
       context: ./frontend
+    image: nelsontlima/projeto01-frontend:latest
     ports:
       - "3000:80"
     environment:
-      - VITE_API_URL=http://backend:5000
+      - VITE_API_URL=http://localhost:5000
     depends_on:
       - backend
     networks:
