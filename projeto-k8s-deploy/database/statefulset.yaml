@@ -38,13 +38,9 @@ spec:
             - secretRef:
                 name: projeto01-secret
           volumeMounts:
-            - name: postgres-pvc
+            - name: postgres-volume
               mountPath: /var/lib/postgresql/data
-  volumeClaimTemplates:
-    - metadata:
-        name: postgres-pvc
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 1Gi
+      volumes:
+        - name: postgres-volume
+          persistentVolumeClaim:
+            claimName: postgres-pvc 
