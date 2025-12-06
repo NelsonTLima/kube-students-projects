@@ -1,6 +1,8 @@
 # 1. Atividade Avaliativa – Deploy de Aplicação em Kubernetes
 Esta atividade visa compreender e praticar como utilizar os principais componentes do kubernetes para realizar o deploy de uma aplicação que contém Backend, Frontend e armazenamento persistente em um banco de dados.
 
+[Pular para a solução](#solucao)
+
 ## 1.1 Objetivo
 Desafiar os alunos a realizar o deploy completo de uma aplicação fullstack (React + Flask + PostgreSQL) em um cluster Kubernetes, garantindo:
 
@@ -146,3 +148,6 @@ Bonus: até 10 adicional
 - Testem localmente com **Docker Compose** antes de subir para o Kubernetes.
 - Usem **kubectl port-forward** para testar backend e frontend separadamente.
 - Documentem tudo com prints e comandos. Simples e direto.
+
+# 4. Solução
+<a name="solucao"></a>
