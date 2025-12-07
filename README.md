@@ -1,6 +1,11 @@
 # 1. Atividade Avaliativa – Deploy de Aplicação em Kubernetes
 Esta atividade visa compreender e praticar como utilizar os principais componentes do kubernetes para realizar o deploy de uma aplicação que contém Backend, Frontend e armazenamento persistente em um banco de dados.
 
+## 1.2 Alunos
+
+Edvan da Silva Oliveira - 20222380011
+Nelson Tulio de Menezes Lima - 20231380023
+
 [Pular para a solução](#solucao)
 
 ## 1.1 Objetivo
@@ -151,3 +156,87 @@ Bonus: até 10 adicional
 
 # 4. Solução
 <a name="solucao"></a>
+
+Essa atividade foi feita considerando o que o cluster estará rodando no kind
+com a mesma configuração exemplificada no material na parte de liberar o
+IngressController.
+
+```yaml
+# kind-config.yaml
+
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 80
+        hostPort: 7080
+        protocol: TCP
+      - containerPort: 443
+        hostPort: 7443
+        protocol: TCP
+```
+
+Como é possível observar, o kind faz um mapeamento de portas (NAT) direcionando
+o tráfego da porta 7080 do host para a porta 80 do nó do cluster. O mesmo 
+ocorre com a porta 7443 → 443. Nossa dupla optou por manter exatamente essa 
+configuração para garantir consistência com a configuração usada em sala de aula.
+Por esse motivo, não expomos a porta 5000 do backend, optando por não reproduzir
+o comportamento do docker-compose fornecido na atividade.
+
+Com essa configuração, todo o acesso externo ocorre exclusivamente por
+``localhost:7080``, e não por portas individuais de cada serviço. Dentro do
+cluster, o IngressController NGINX está configurado para escutar a porta 80 e
+realizar o proxy reverso baseado no path:
+
+- o backend recebe as requisições enviadas para ``/api``,
+- o frontend responde às requisições feitas em ``/``.
+
+Essa contextualização é importante porque a porta exposta pelo kind determina o
+valor correto da variável VITE_API_URL. Em um cluster Kubernetes convencional,
+a aplicação seria acessada diretamente pela porta 80, porém, no kind, o
+navegador deve chamar o backend por meio da porta 7080, que é a porta realmente
+exposta para o usuário final.
+
+O nome de domínio definido para a aplicação é “localhost”. Isso evita que o
+avaliador precise editar o arquivo ``/etc/hosts`` e dispensa a necessidade de
+configuração de DNS fora do cluster.
+
+# Instruções
+
+## 1. Criar o cluster:
+
+```bash
+kind create cluster --config=projeto-k8s-deploy/kind-config.yaml
+```
+
+## 2. Criar kubeconfig:
+
+```bash
+mkdir -p ~/.kube
+kind get kubeconfig > ~/.kube/config
+```
+
+## 3. Instalar o ingressController NGINX
+
+```bash
+kubectl apply -f https://kind.sigs.k8s.io/examples/ingress/deploy-ingress-nginx.yaml
+```
+
+## 4. Criar namespace
+
+```bash
+kubectl apply -f projeto-k8s-deploy/namespace.yaml
+```
+
+## 5. Deploy
+
+```bash
+kubectl apply -f projeto-k8s-deploy/namespace.yaml
+```
+
+## 6. Acessando a aplicação
+
+Após uns 2 minutos, que é o tempo que leva para a criação do statefulset
+``db-0``, é possível acessar a aplicação pelo endereço
+[http://localhost:7080](http://localhost:7080)
