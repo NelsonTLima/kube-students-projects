@@ -3,8 +3,8 @@ Esta atividade visa compreender e praticar como utilizar os principais component
 
 ## 1.2 Alunos
 
-Edvan da Silva Oliveira - 20222380011
-Nelson Tulio de Menezes Lima - 20231380023
+- Edvan da Silva Oliveira - 20222380011
+- Nelson Tulio de Menezes Lima - 20231380023
 
 [Pular para a solução](#solucao)
 
