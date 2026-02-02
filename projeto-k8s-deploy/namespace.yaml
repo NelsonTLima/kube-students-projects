@@ -2,3 +2,8 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: projeto01
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: database

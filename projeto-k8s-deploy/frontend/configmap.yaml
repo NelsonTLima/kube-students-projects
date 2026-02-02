@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-configmap
+  namespace: projeto01
+data:
+  VITE_API_URL: "http://localhost:7080"

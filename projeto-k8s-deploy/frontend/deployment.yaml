@@ -27,13 +27,11 @@ spec:
         app: projeto01-frontend
     spec:
       containers:
-      - name: backend
+      - name: frontend
         image: nelsontlima/projeto01-frontend:latest
         imagePullPolicy: Always
         ports:
           - containerPort: 80
         envFrom:
           - configMapRef:
-              name: projeto01-configmap
-          - secretRef:
-              name: projeto01-secret
+              name: frontend-configmap
