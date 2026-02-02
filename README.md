@@ -232,7 +232,7 @@ kubectl apply -f projeto-k8s-deploy/namespace.yaml
 ## 5. Deploy
 
 ```bash
-kubectl apply -f projeto-k8s-deploy/namespace.yaml
+kubectl apply -f projeto-k8s-deploy -R
 ```
 
 ## 6. Acessando a aplicação
